@@ -31,9 +31,18 @@ if (!fs.existsSync(inputFile)) {
 
 let content = fs.readFileSync(inputFile, 'utf-8');
 
+// 保護する領域を一時退避
+const preserved = [];
+
+// コメント行を一時退避（% で始まる行全体を保護）
+const commentRegex = /^[ \t]*%.*$/gm;
+content = content.replace(commentRegex, (match) => {
+  preserved.push(match);
+  return `__PRESERVED_${preserved.length - 1}__`;
+});
+
 // verbatim, lstlisting, minted 環境を一時退避（コード例が壊れないように）
 const verbatimRegex = /\\begin\{(verbatim|lstlisting|minted)\}[\s\S]*?\\end\{\1\}/g;
-const preserved = [];
 
 content = content.replace(verbatimRegex, (match) => {
   preserved.push(match);
@@ -41,10 +50,10 @@ content = content.replace(verbatimRegex, (match) => {
 });
 
 // 「。」「！」「？」の後に改行がない場合、改行を挿入
-// ただし、閉じ括弧（）」）やコメント行（%）の直前は除外
-content = content.replace(/([。！？])(?![）」\n%])/g, '$1\n');
+// ただし、閉じ括弧（）」）の直前は除外
+content = content.replace(/([。！？])(?![）」\n])/g, '$1\n');
 
-// 退避した環境を復元
+// 退避した領域を復元（コメント行、verbatim 環境）
 content = content.replace(/__PRESERVED_(\d+)__/g, (_, i) => preserved[i]);
 
 fs.writeFileSync(outputFile, content, 'utf-8');
