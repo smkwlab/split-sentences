@@ -7,13 +7,13 @@ Git diff を見やすくするため、1文1行にします。
 
 ```bash
 # カレントディレクトリの sotsuron.tex を処理（上書き）
-npx @smkwlab/split-sentences
+npx github:smkwlab/split-sentences
 
 # 別のファイルを指定
-npx @smkwlab/split-sentences main.tex
+npx github:smkwlab/split-sentences main.tex
 
 # 出力ファイルを別に指定
-npx @smkwlab/split-sentences input.tex output.tex
+npx github:smkwlab/split-sentences input.tex output.tex
 ```
 
 ## 機能

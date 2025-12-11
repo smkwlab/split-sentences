@@ -5,9 +5,9 @@
  * Git diff を見やすくするため、1文1行にする
  *
  * Usage:
- *   npx @smkwlab/split-sentences
- *   npx @smkwlab/split-sentences main.tex
- *   npx @smkwlab/split-sentences input.tex output.tex
+ *   npx github:smkwlab/split-sentences
+ *   npx github:smkwlab/split-sentences main.tex
+ *   npx github:smkwlab/split-sentences input.tex output.tex
  */
 
 const fs = require('fs');
@@ -16,7 +16,7 @@ const inputFile = process.argv[2] || 'sotsuron.tex';
 const outputFile = process.argv[3] || inputFile;
 
 if (process.argv[2] === '-h' || process.argv[2] === '--help') {
-  console.log('Usage: npx @smkwlab/split-sentences [input.tex] [output.tex]');
+  console.log('Usage: npx github:smkwlab/split-sentences [input.tex] [output.tex]');
   console.log('');
   console.log('Options:');
   console.log('  input.tex   Input LaTeX file (default: sotsuron.tex)');
