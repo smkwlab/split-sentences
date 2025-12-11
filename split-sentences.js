@@ -34,8 +34,8 @@ let content = fs.readFileSync(inputFile, 'utf-8');
 // 保護する領域を一時退避
 const preserved = [];
 
-// コメント行を一時退避（% で始まる行全体を保護）
-const commentRegex = /^[ \t]*%.*$/gm;
+// コメント部分を一時退避（% から行末まで、インラインコメントも含む）
+const commentRegex = /%.*$/gm;
 content = content.replace(commentRegex, (match) => {
   preserved.push(match);
   return `__PRESERVED_${preserved.length - 1}__`;
