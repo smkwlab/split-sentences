@@ -35,7 +35,8 @@ let content = fs.readFileSync(inputFile, 'utf-8');
 const preserved = [];
 
 // コメント部分を一時退避（% から行末まで、インラインコメントも含む）
-const commentRegex = /%.*$/gm;
+// ただし \% はエスケープされたリテラルなので除外
+const commentRegex = /(?<!\\)%.*$/gm;
 content = content.replace(commentRegex, (match) => {
   preserved.push(match);
   return `__PRESERVED_${preserved.length - 1}__`;
@@ -53,7 +54,7 @@ content = content.replace(verbatimRegex, (match) => {
 // ただし、閉じ括弧（）」）の直前は除外
 content = content.replace(/([。！？])(?![）」\n])/g, '$1\n');
 
-// 退避した領域を復元（コメント行、verbatim 環境）
+// 退避した領域を復元（コメント部分、verbatim 環境）
 content = content.replace(/__PRESERVED_(\d+)__/g, (_, i) => preserved[i]);
 
 fs.writeFileSync(outputFile, content, 'utf-8');
