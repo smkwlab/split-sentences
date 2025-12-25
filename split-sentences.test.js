@@ -23,8 +23,17 @@ function test(name, input, expected) {
   const outputFile = path.join(tmpDir, 'output.tex');
 
   fs.writeFileSync(inputFile, input);
-  execSync(`node ${SCRIPT} ${inputFile} ${outputFile}`, { stdio: 'pipe' });
-  const actual = fs.readFileSync(outputFile, 'utf-8');
+
+  let actual;
+  try {
+    execSync(`node ${SCRIPT} ${inputFile} ${outputFile}`, { stdio: 'pipe' });
+    actual = fs.readFileSync(outputFile, 'utf-8');
+  } catch (error) {
+    console.log(`✗ ${name}`);
+    console.log(`  スクリプト実行エラー: ${error.message || error}`);
+    failed++;
+    return;
+  }
 
   if (actual === expected) {
     console.log(`✓ ${name}`);
