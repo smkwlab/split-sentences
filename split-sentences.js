@@ -50,9 +50,14 @@ content = content.replace(verbatimRegex, (match) => {
   return `__PRESERVED_${preserved.length - 1}__`;
 });
 
+// 行末の trailing spaces を事前に削除
+content = content.replace(/[ \t]+$/gm, '');
+
 // 「。」「！」「？」の後に改行がない場合、改行を挿入
-// ただし、閉じ括弧（）」）の直前は除外
-content = content.replace(/([。！？])(?![）」\n])/g, '$1\n');
+// ただし、閉じ括弧（）」）、改行、インラインコメント（%）、保護領域の直前は除外
+// \r\n (Windows) と \n (Unix) の両方に対応
+// 句点後の spaces も削除
+content = content.replace(/([。！？])[ \t]*(?![）」\r\n%_])/g, '$1\n');
 
 // 退避した領域を復元（コメント部分、verbatim 環境）
 content = content.replace(/__PRESERVED_(\d+)__/g, (_, i) => preserved[i]);
