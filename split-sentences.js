@@ -51,13 +51,14 @@ content = content.replace(verbatimRegex, (match) => {
 });
 
 // 行末の trailing spaces を事前に削除
-content = content.replace(/[ \t]+$/gm, '');
+// Windows 改行 (CRLF) の場合、$ は \n の前にマッチするため \r の前のスペースも削除
+content = content.replace(/[ \t]+(\r?\n|$)/gm, '$1');
 
 // 「。」「！」「？」の後に改行がない場合、改行を挿入
-// ただし、閉じ括弧（）」）、改行、インラインコメント（%）、保護領域の直前は除外
-// \r\n (Windows) と \n (Unix) の両方に対応
-// 句点後の spaces も削除
-content = content.replace(/([。！？])[ \t]*(?![）」\r\n%_])/g, '$1\n');
+// ただし、閉じ括弧（）」）、改行、保護領域（__PRESERVED_X__）の直前は除外
+// コメント本体はすでに __PRESERVED_X__ に置き換え済みのため、ここでの % はエスケープされた \% 用
+// \r\n (Windows) と \n (Unix) の両方に対応し、句点後の spaces も削除
+content = content.replace(/([。！？])[ \t]*(?![）」\r\n%])(?!__PRESERVED_)/g, '$1\n');
 
 // 退避した領域を復元（コメント部分、verbatim 環境）
 content = content.replace(/__PRESERVED_(\d+)__/g, (_, i) => preserved[i]);
