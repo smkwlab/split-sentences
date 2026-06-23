@@ -94,6 +94,18 @@ function runTests() {
     '「これは文です。」次の文。\n'
   );
 
+  test(
+    '全角ピリオドでも閉じ括弧の前では改行しない（）',
+    'これは文です（本当です．）次の文．',
+    'これは文です（本当です．）次の文．\n'
+  );
+
+  test(
+    '全角ピリオドでも閉じ括弧の前では改行しない」',
+    '「これは文です．」次の文．',
+    '「これは文です．」次の文．\n'
+  );
+
   // trailing spaces の処理
   test(
     '句点後のスペース2つを削除して改行',
@@ -168,6 +180,12 @@ function runTests() {
     'verbatim環境内は処理しない',
     'これは文です。\n\\begin{verbatim}\nコード。例。\n\\end{verbatim}\n次の文です。',
     'これは文です。\n\\begin{verbatim}\nコード。例。\n\\end{verbatim}\n次の文です。\n'
+  );
+
+  test(
+    'verbatim環境内は処理しない（全角ピリオド）',
+    'これは文です．\n\\begin{verbatim}\nコード．例．\n\\end{verbatim}\n次の文です．',
+    'これは文です．\n\\begin{verbatim}\nコード．例．\n\\end{verbatim}\n次の文です．\n'
   );
 
   // 段落の保持
