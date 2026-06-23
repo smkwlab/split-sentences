@@ -1,6 +1,6 @@
 # split-sentences
 
-LaTeX 文書の句点（。！？）で改行を挿入するツール。
+LaTeX 文書の句点（。．！？）で改行を挿入するツール。
 Git diff を見やすくするため、1文1行にします。
 
 ## 使い方
@@ -18,7 +18,7 @@ npx github:smkwlab/split-sentences input.tex output.tex
 
 ## 機能
 
-- 「。」「！」「？」の後に改行を挿入
+- 「。」「．」「！」「？」の後に改行を挿入
 - `verbatim`、`lstlisting`、`minted` 環境は保護（コード例が壊れない）
 - 閉じ括弧（）」）の直前は改行しない
 - コメント行（%）の直前は改行しない
