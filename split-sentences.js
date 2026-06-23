@@ -58,7 +58,7 @@ content = content.replace(/[ \t]+(\r?\n|$)/gm, '$1');
 // ただし、閉じ括弧（）」）、改行、保護領域（__PRESERVED_X__）の直前は除外
 // コメント本体はすでに __PRESERVED_X__ に置き換え済みのため、ここでの % はエスケープされた \% 用
 // \r\n (Windows) と \n (Unix) の両方に対応し、句点後の spaces も削除
-content = content.replace(/([。！？])[ \t]*(?![）」\r\n%])(?!__PRESERVED_)/g, '$1\n');
+content = content.replace(/([。．！？])[ \t]*(?![）」\r\n%])(?!__PRESERVED_)/g, '$1\n');
 
 // 退避した領域を復元（コメント部分、verbatim 環境）
 content = content.replace(/__PRESERVED_(\d+)__/g, (_, i) => preserved[i]);
